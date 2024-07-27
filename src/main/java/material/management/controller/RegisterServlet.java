@@ -35,6 +35,8 @@ public class RegisterServlet extends HttpServlet {
             statement.executeUpdate();
         } catch (SQLException e) {
             e.printStackTrace();
+        } catch (Exception e) {
+            e.printStackTrace();
         }
 
         response.sendRedirect("login-wow.jsp");
