@@ -4,26 +4,43 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
 import java.util.Properties;
-
-import io.github.cdimascio.dotenv.Dotenv;
-
 public class DBUtil {
-    private static final Dotenv dotenv = Dotenv.load();
+	 
+	public static Connection connectDB()
+	{
+	    try
+	    {
+	         
+	        // Step 2: involve among 7 in Connection
+	        // class i.e Load and register drivers
+	 
+	        // 2(a) Loading drivers using forName() method
+	        // Here, the name of the database is mysql
+	        Class.forName("com.mysql.jdbc.Driver");
+	 
+	        // 2(b) Registering drivers using DriverManager
+	        Connection con = DriverManager.getConnection(
+	            "jdbc:mysql://localhost:3306/klu",
+	            "root", "Amma@143$");
+	             
+	        // Root is the username, and
+	        // 1234 is the password
+	 
+	        // Here, the object of Connection class is return
+	        // which further used in main class 
+	        return con;
+	    }
+	 
+	    // Here, the exceptions is handle by Catch block
+	    catch (SQLException | ClassNotFoundException e)
+	    {
+	         
+	        // Print the exceptions
+	        System.out.println(e);
+	 
+	        return null;
+	    }
+	}
+	}
+    
 
-    private static final String URL = dotenv.get("DB_URL");
-    private static final String USER = dotenv.get("DB_USER");
-    private static final String PASSWORD = dotenv.get("DB_PASSWORD");
-    private static final String SSL_CA = "./ca.pem";
-
-    public static Connection getConnection() throws SQLException {
-        Properties props = new Properties();
-        props.setProperty("user", USER);
-        props.setProperty("password", PASSWORD);
-        props.setProperty("useSSL", "true");
-        props.setProperty("requireSSL", "true");
-        props.setProperty("verifyServerCertificate", "true");
-        props.setProperty("trustCertificateKeyStoreUrl", "file:" + SSL_CA);
-
-        return DriverManager.getConnection(URL, props);
-    }
-}
